@@ -14,7 +14,6 @@ import com.plv.services.registration.api.model.UserRegistrationReport;
 import com.plv.services.registration.api.model.UserRegistrationStatus;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultUserRegistrationServiceTest {
@@ -36,15 +35,14 @@ public class DefaultUserRegistrationServiceTest {
     @Mock
     private UserRegistrar registrar2;
 
-    private Collection<UserRegistrar> registrars;
-
     @Before
     public void init_test() {
         Mockito.when(newsLetterRegistrar.getType()).thenReturn(NEWSLETTER_REGISTRAR_TYPE);
         Mockito.when(registrar1.getType()).thenReturn(REGISTRAR_TYPE_1);
         Mockito.when(registrar2.getType()).thenReturn(REGISTRAR_TYPE_2);
-        registrars = Arrays.asList(registrar1, registrar2);
-        userRegistrationService = new DefaultUserRegistrationService(newsLetterRegistrar, registrars);
+        userRegistrationService = new DefaultUserRegistrationService(newsLetterRegistrar);
+        userRegistrationService.register(registrar1);
+        userRegistrationService.register(registrar2);
     }
 
     @Test

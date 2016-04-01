@@ -6,17 +6,18 @@ import com.plv.services.registration.api.model.User;
 import com.plv.services.registration.api.model.UserRegistrationReport;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class DefaultUserRegistrationService implements UserRegistrationService {
+public class DefaultUserRegistrationService implements UserRegistrationService, UserRegistrarRegistry {
 
     private final UserRegistrar newsLetterRegistrar;
 
-    private final Collection<UserRegistrar> registrars;
+    private final Collection<UserRegistrar> registrars = new LinkedList<>();
 
     @Override
     public UserRegistrationReport registerNewUser(final User user, final boolean registerOnNewsLetter) {
@@ -26,6 +27,11 @@ public class DefaultUserRegistrationService implements UserRegistrationService {
         report.withRegistrationStatus(newsLetterRegistrar.getType(),
                 registerOnNewsLetterIfNeeded(user, registerOnNewsLetter));
         return report;
+    }
+
+    @Override
+    public void register(final UserRegistrar userRegistrar) {
+        registrars.add(userRegistrar);
     }
 
     private void registerUserOnEachRegistrar(final User user, final UserRegistrationReport report) {

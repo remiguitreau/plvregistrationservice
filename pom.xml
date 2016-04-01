@@ -124,5 +124,8 @@
 		<module>plvregistrationservice-api</module>
 		<module>plvregistrationservice-core</module>
 		<module>plvregistrationservice-http</module>
+		<module>plvregistrationservice-registrars</module>
+		<module>plvregistrationservice-app</module>
+		<module>plvregistrationservice-installer</module>
 	</modules>
 </project>
